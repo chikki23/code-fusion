@@ -1,38 +1,38 @@
-import React,{useState} from "react";
-//importing codemirror files
-import "codemirror/lib/codemirror.css";
-// import "codemirror/theme/material.css";
-import "codemirror/mode/xml/xml";
-import "codemirror/mode/javascript/javascript";
-import "codemirror/mode/css/css";
-// import "codemirror/theme/ambiance.css";
-import "codemirror/theme/hopscotch.css";
+import React, { useState } from 'react';
+import 'codemirror/lib/codemirror.css';
+import 'codemirror/theme/material-darker.css';
+import 'codemirror/mode/xml/xml';
+import 'codemirror/mode/javascript/javascript';
+import 'codemirror/mode/css/css';
+import 'codemirror/addon/edit/closetag';
+import 'codemirror/addon/edit/closebrackets';
+import 'codemirror/addon/edit/matchbrackets';
 
+import { Controlled as ControlledEditor } from 'react-codemirror2';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 
-import { Controlled as ControlledEditor } from 'react-codemirror2'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCompressAlt, faExpandAlt } from '@fortawesome/free-solid-svg-icons'
-
-
-export default function Editor(props) {
-  const { language, displayName, value, onChange } = props;
-  const[open, setOpen]=useState(true)
+export default function Editor({ language, displayName, value, onChange, badge }) {
+  const [open, setOpen] = useState(true);
 
   function handleChange(editor, data, value) {
-    // console.log("editor value = ", value); //for debugging purpose
     onChange(value);
   }
 
   return (
     <div className={`editor-container ${open ? '' : 'collapsed'}`}>
       <div className="editor-title">
-      {displayName}
+        <div className="editor-title-left">
+          <span className={`language-badge ${badge}`}></span>
+          <span className="editor-title-text">{displayName}</span>
+        </div>
         <button
           type="button"
           className="expand-collapse-btn"
           onClick={() => setOpen(prevOpen => !prevOpen)}
+          title={open ? 'Collapse editor' : 'Expand editor'}
         >
-        <FontAwesomeIcon icon={open ? faCompressAlt : faExpandAlt} />
+          <FontAwesomeIcon icon={open ? faChevronDown : faChevronUp} />
         </button>
       </div>
       <ControlledEditor
@@ -41,12 +41,16 @@ export default function Editor(props) {
         className="code-mirror-wrapper"
         options={{
           lineWrapping: true,
-          lint: true,
           mode: language,
-          theme: "hopscotch",
-          lineNumbers: true
+          theme: 'material-darker',
+          lineNumbers: true,
+          autoCloseTags: true,
+          autoCloseBrackets: true,
+          matchBrackets: true,
+          tabSize: 2,
+          indentWithTabs: false,
         }}
       />
     </div>
-  )
+  );
 }

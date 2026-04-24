@@ -1,70 +1,79 @@
-# Getting Started with Create React App
+# CodeFusion
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A sleek, browser-based live code editor — write HTML, CSS, and JavaScript and see the output update in real time.
 
-## Available Scripts
+![React](https://img.shields.io/badge/React-18-61dafb?logo=react&logoColor=white)
+![CodeMirror](https://img.shields.io/badge/CodeMirror-5-d30707?logo=codemirror&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-green)
 
-In the project directory, you can run:
+## Screenshots
+![Editor View](screenshots/codefusion.png)
+![Console Output](screenshots/output.png)
+![Console Output](screenshots/console_tester.png)
+![Console Output](screenshots/console.png)
 
-### `npm start`
+## Features
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- **Live Preview** — Output updates automatically as you type (300ms debounce)
+- **Three-Pane Editor** — Side-by-side HTML, CSS, and JavaScript editors with syntax highlighting
+- **Resizable Panels** — Drag the sash dividers to resize editors, output, and console sections
+- **Inline Console** — Captures `console.log`, `console.warn`, and `console.error` output directly in the UI
+- **Code Persistence** — Your code is saved to `localStorage` and survives page refreshes
+- **Download Export** — Export your creation as a standalone `.html` file
+- **Reset** — One-click to clear all editors
+- **Dark Theme** — Modern dark UI inspired by VS Code
+- **Auto-Close** — Tags, brackets, and quotes close automatically
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Tech Stack
 
-### `npm test`
+| Technology | Purpose |
+|---|---|
+| [React 18](https://reactjs.org/) | UI framework |
+| [CodeMirror 5](https://codemirror.net/5/) | Code editor with syntax highlighting |
+| [react-codemirror2](https://www.npmjs.com/package/react-codemirror2) | React wrapper for CodeMirror |
+| [Font Awesome](https://fontawesome.com/) | Icons |
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Getting Started
 
-### `npm run build`
+```bash
+# Install dependencies
+npm install
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+# Start development server
+npm start
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Open [http://localhost:3000](http://localhost:3000) to use the editor.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Project Structure
 
-### `npm run eject`
+```
+my-code-pen/
+├── public/
+│   └── index.html            # HTML shell
+├── src/
+│   ├── index.js              # React entry point
+│   ├── index.css             # Global styles (dark theme)
+│   ├── components/
+│   │   ├── App.js            # Main app — state, live preview, download/reset
+│   │   ├── Editor.js         # Reusable code editor component
+│   │   ├── Header.js         # Top navigation with branding & actions
+│   │   ├── ConsolePanel.js   # Inline console output panel
+│   │   └── SplitPane.js      # Resizable split pane with draggable sash
+│   └── hooks/
+│       └── useLocalStorage.js # Custom hook for persistent state
+└── package.json
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## How It Works
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+1. You type code in the HTML, CSS, or JS editor
+2. After 300ms of inactivity (debouncing), the app combines your code into a single HTML document
+3. That document is injected into a sandboxed `<iframe>` via `srcDoc`
+4. Console methods inside the iframe are overridden to send messages to the parent via `postMessage`
+5. The `ConsolePanel` component displays those messages with color coding
+6. All code is auto-saved to `localStorage` via a custom hook
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## License
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+MIT
